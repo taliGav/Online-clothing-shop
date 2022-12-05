@@ -4,6 +4,11 @@ import {
   createUserProfileDocument,
 } from "./../../utils/firebase/firebase-utils";
 
+import SignUpFormInput from "./SignUpFormInput";
+import Button from "./../button/Button";
+
+import "./form-input.styles.scss";
+
 const defaultFormValues = {
   displayName: "",
   email: "",
@@ -29,12 +34,12 @@ const SignUpForm = () => {
       await createUserProfileDocument(res.user, { displayName });
       setFormValues(defaultFormValues);
     } catch (error) {
-        if (error.code === "auth/email-already-in-use") {
-            alert("Cannot create user, email already in use.");
-          }
-          if (error.code === "auth/invalid-email") {
-              alert("Cannot create user, invalid email.");
-          }  
+      if (error.code === "auth/email-already-in-use") {
+        alert("Cannot create user, email already in use.");
+      }
+      if (error.code === "auth/invalid-email") {
+        alert("Cannot create user, invalid email.");
+      }
       console.log("Error creating user: ", error.message);
     }
   };
@@ -47,73 +52,55 @@ const SignUpForm = () => {
   };
 
   return (
-    <div>
-      <h1>Sign up with your email and password</h1>
+    <div className="sign-up-container">
+      <h2>Don't have an account yet? </h2>
+      <span>Sign up with your email and password</span>
 
-      <form
-        onSubmit={(e) => {
-          handleSubmit(e);
-        }}
-      >
-        <label>Display Name</label>
-        <input
+      <form onSubmit={handleSubmit}>
+        <SignUpFormInput
+          label="Display Name"
           type="text"
           name="displayName"
           value={displayName}
-          onChange={(e) => {
-            handleChange(e);
-          }}
+          onChange={handleChange}
           required
         />
-        <br />
-        <label>Email</label>
-        <input
+        <SignUpFormInput
+          label="Email"
           type="email"
           name="email"
           value={email}
-          onChange={(e) => {
-            handleChange(e);
-          }}
+          onChange={handleChange}
           required
         />
-        <br />
-
-        <label>Password</label>
-        <input
+        <SignUpFormInput
+          label="Password"
           type="password"
           name="password"
           value={password}
-          onChange={(e) => {
-            handleChange(e);
-          }}
+          onChange={handleChange}
           required
         />
-        <br />
-
-        <label>Confirm Password</label>
-        <input
+        <SignUpFormInput
+          label="Confirm Password"
           type="password"
           name="confirmPassword"
           value={confirmPassword}
-          onChange={(e) => {
-            handleChange(e);
-          }}
+          onChange={handleChange}
           required
         />
-
-        <button type="submit">Sign Up</button>
+        <Button type="submit">Sign Up</Button>
       </form>
-
-      {/* <SignUpFormContainer>
-         <SignUpFormTitle>Sign Up</SignUpFormTitle>
-         <SignUpFormInput type="text" placeholder="Name" required />
-         <SignUpFormInput type="email" placeholder="Email" required />
-         <SignUpFormInput type="password" placeholder="Password" required />
-         <SignUpFormInput type="password" placeholder="Confirm Password" required />
-         <SignUpFormButton>Sign Up</SignUpFormButton>
-      </SignUpFormContainer> */}
     </div>
   );
 };
 
 export default SignUpForm;
+
+{
+  /* <SignUpFormContainer>
+    <SignUpFormTitle>Sign Up</SignUpFormTitle> */
+}
+{
+  /* </SignUpFormContainer> */
+}
