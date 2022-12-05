@@ -5,7 +5,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   onAuthStateChanged,
-  //   createUserWithEmailAndPassword,
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
 
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
@@ -30,7 +30,8 @@ googleProvider.setCustomParameters({
 });
 
 export const auth = getAuth(firebaseApp);
-export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
+export const signInWithGooglePopup = () =>
+  signInWithPopup(auth, googleProvider);
 
 onAuthStateChanged(auth, (user) => {
   if (user !== null) {
@@ -45,11 +46,11 @@ export const db = getFirestore(firebaseApp);
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   const userDocRef = doc(db, "users", userAuth.uid);
 
-  console.log("userDocRef: ", userDocRef);
+//   console.log("userDocRef: ", userDocRef);
 
   const userSnapshot = await getDoc(userDocRef);
-  console.log("userSnapshot: ", userSnapshot);
-  console.log("userSnapshot exists: ", userSnapshot.exists());
+//   console.log("userSnapshot: ", userSnapshot);
+//   console.log("userSnapshot exists: ", userSnapshot.exists());
 
   if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;
