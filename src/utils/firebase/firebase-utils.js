@@ -43,17 +43,18 @@ onAuthStateChanged(auth, (user) => {
 
 export const db = getFirestore(firebaseApp);
 
-export const createUserProfileDocument = async (userAuth, additionalData) => {
-  const userDocRef = doc(db, "users", userAuth.uid);
+export const createUserProfileDocument = async (authUser, additionalData) => {
+  if (!authUser) return;
+  const userDocRef = doc(db, "users", authUser.uid);
 
-//   console.log("userDocRef: ", userDocRef);
+  console.log("userDocRef: ", userDocRef);
 
   const userSnapshot = await getDoc(userDocRef);
-//   console.log("userSnapshot: ", userSnapshot);
-//   console.log("userSnapshot exists: ", userSnapshot.exists());
+  console.log("userSnapshot: ", userSnapshot);
+  console.log("userSnapshot exists: ", userSnapshot.exists());
 
   if (!userSnapshot.exists()) {
-    const { displayName, email } = userAuth;
+    const { displayName, email } = authUser;
     const createdAt = new Date();
 
     try {
@@ -69,4 +70,19 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   }
 
   return userDocRef;
+};
+
+export const createAuthUserWithEmailAndPassword = async (
+  email,
+  password
+) => {
+  if (!email || !password) return;
+  const authUser = await createUserWithEmailAndPassword(
+    auth,
+    email,
+    password
+  );
+  console.log("authUser: ", authUser);
+  // createUserProfileDocument(authUser.user, { displayName });
+  return authUser;
 };

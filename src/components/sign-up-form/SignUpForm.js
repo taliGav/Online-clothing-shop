@@ -1,37 +1,68 @@
 import { useState } from "react";
+import {
+  createAuthUserWithEmailAndPassword,
+  createUserProfileDocument,
+} from "./../../utils/firebase/firebase-utils";
 
 const defaultFormValues = {
-    displayName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+  displayName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
 };
 
 const SignUpForm = () => {
-    const [formValues, setFormValues] = useState(defaultFormValues);
-    const { displayName, email, password, confirmPassword } = formValues;
+  const [formValues, setFormValues] = useState(defaultFormValues);
+  const { displayName, email, password, confirmPassword } = formValues;
 
-    console.log("formValues: ", formValues);
+  console.log("formValues: ", formValues);
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (password !== confirmPassword) {
+      alert("Passwords don't match");
+      return;
+    }
+    try {
+      const res = await createAuthUserWithEmailAndPassword(email, password);
+      console.log("res: ", res);
+      await createUserProfileDocument(res.user, { displayName });
+      setFormValues(defaultFormValues);
+    } catch (error) {
+        if (error.code === "auth/email-already-in-use") {
+            alert("Cannot create user, email already in use.");
+          }
+          if (error.code === "auth/invalid-email") {
+              alert("Cannot create user, invalid email.");
+          }  
+      console.log("Error creating user: ", error.message);
+    }
+  };
 
-        setFormValues({ ...formValues, [name]: value });
-        console.log("formValues on handlechange: ", formValues);
-    };
+  const handleChange = (event) => {
+    const { name, value } = event.target;
 
+    setFormValues({ ...formValues, [name]: value });
+    console.log("formValues on handlechange: ", formValues);
+  };
 
   return (
     <div>
       <h1>Sign up with your email and password</h1>
 
-      <form onSubmit={() => {handleChange()}}>
+      <form
+        onSubmit={(e) => {
+          handleSubmit(e);
+        }}
+      >
         <label>Display Name</label>
         <input
           type="text"
           name="displayName"
           value={displayName}
-          onChange={(e) => {handleChange(e)}}
+          onChange={(e) => {
+            handleChange(e);
+          }}
           required
         />
         <br />
@@ -40,7 +71,9 @@ const SignUpForm = () => {
           type="email"
           name="email"
           value={email}
-          onChange={(e) => {handleChange(e)}}
+          onChange={(e) => {
+            handleChange(e);
+          }}
           required
         />
         <br />
@@ -50,7 +83,9 @@ const SignUpForm = () => {
           type="password"
           name="password"
           value={password}
-          onChange={(e) => {handleChange(e)}}
+          onChange={(e) => {
+            handleChange(e);
+          }}
           required
         />
         <br />
@@ -60,7 +95,9 @@ const SignUpForm = () => {
           type="password"
           name="confirmPassword"
           value={confirmPassword}
-          onChange={(e) => {handleChange(e)}}
+          onChange={(e) => {
+            handleChange(e);
+          }}
           required
         />
 
