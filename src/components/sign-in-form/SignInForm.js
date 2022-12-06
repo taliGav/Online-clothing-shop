@@ -1,11 +1,9 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import AuthFormInput from "./../form-input/FormInput";
 import Button from "./../button/Button";
-import { userContext } from "./../../contexts/user-context";
 
 import {
   signInWithGooglePopup,
-  createUserProfileDocument,
   signInAuthUserWithEmailAndPassword,
 } from "./../../utils/firebase/firebase-utils";
 
@@ -20,29 +18,16 @@ const SignInForm = () => {
   const [formValues, setFormValues] = useState(defaultFormValues);
   const { email, password } = formValues;
 
-  const { setCurrentUser } = useContext(userContext);
-
   const resetForm = () => {
     setFormValues(defaultFormValues);
   };
 
-  // console.log("signInFormValues: ", formValues);
-
-  const signInWithGoogle = async () => {
-    const response = await signInWithGooglePopup();
-    setCurrentUser(response.user);
-    await createUserProfileDocument(response.user);
-  };
+  const signInWithGoogle = async () => await signInWithGooglePopup();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-      setCurrentUser(response.user);
-      // console.log("sign in submit response: ", response);
+      await signInAuthUserWithEmailAndPassword(email, password);
       resetForm();
     } catch (error) {
       switch (error.code) {
@@ -62,7 +47,6 @@ const SignInForm = () => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
-    // console.log("formValues on handlechange: ", formValues);
   };
 
   return (
@@ -99,11 +83,3 @@ const SignInForm = () => {
 };
 
 export default SignInForm;
-
-{
-  /* <SignUpFormContainer>
-    <SignUpFormTitle>Sign Up</SignUpFormTitle> */
-}
-{
-  /* </SignUpFormContainer> */
-}
