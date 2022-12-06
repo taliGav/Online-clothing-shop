@@ -48,11 +48,11 @@ export const createUserProfileDocument = async (authUser, additionalData) => {
   if (!authUser) return;
   const userDocRef = doc(db, "users", authUser.uid);
 
-  console.log("userDocRef: ", userDocRef);
+  // console.log("userDocRef: ", userDocRef);
 
   const userSnapshot = await getDoc(userDocRef);
-  console.log("userSnapshot: ", userSnapshot);
-  console.log("userSnapshot exists: ", userSnapshot.exists());
+  // console.log("userSnapshot: ", userSnapshot);
+  // console.log("userSnapshot exists: ", userSnapshot.exists());
 
   if (!userSnapshot.exists()) {
     const { displayName, email } = authUser;
@@ -83,7 +83,7 @@ export const createAuthUserWithEmailAndPassword = async (
     email,
     password
   );
-  console.log("authUser: ", authUser);
+  // console.log("authUser: ", authUser);
   // createUserProfileDocument(authUser.user, { displayName });
   return authUser;
 };
@@ -98,6 +98,10 @@ export const signInAuthUserWithEmailAndPassword = async (
     email,
     password
   );
-  console.log("sign in authUser: ", authUser);
+  // console.log("sign in authUser: ", authUser);
   return authUser;
 };
+
+export const signOutAuthUser = () => {
+  auth.signOut();
+}
