@@ -73,35 +73,24 @@ export const createUserProfileDocument = async (authUser, additionalData) => {
   return userDocRef;
 };
 
-export const createAuthUserWithEmailAndPassword = async (
-  email,
-  password
-) => {
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
-  const authUser = await createUserWithEmailAndPassword(
-    auth,
-    email,
-    password
-  );
+  const authUser = await createUserWithEmailAndPassword(auth, email, password);
   // console.log("authUser: ", authUser);
   // createUserProfileDocument(authUser.user, { displayName });
   return authUser;
 };
 
-export const signInAuthUserWithEmailAndPassword = async (
-  email,
-  password
-) => {
+export const signInAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
-  const authUser = await signInWithEmailAndPassword(
-    auth,
-    email,
-    password
-  );
+  const authUser = await signInWithEmailAndPassword(auth, email, password);
   // console.log("sign in authUser: ", authUser);
   return authUser;
 };
 
 export const signOutAuthUser = () => {
   auth.signOut();
-}
+};
+
+export const onAuthStateChangedListener = (callback) =>
+  onAuthStateChanged(auth, callback);
