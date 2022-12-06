@@ -20,7 +20,9 @@ const SignUpForm = () => {
   const [formValues, setFormValues] = useState(defaultFormValues);
   const { displayName, email, password, confirmPassword } = formValues;
 
-  console.log("formValues: ", formValues);
+  const resetForm = () => {
+    setFormValues(defaultFormValues);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -32,7 +34,7 @@ const SignUpForm = () => {
       const res = await createAuthUserWithEmailAndPassword(email, password);
       console.log("res: ", res);
       await createUserProfileDocument(res.user, { displayName });
-      setFormValues(defaultFormValues);
+      resetForm();
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         alert("Cannot create user, email already in use.");
