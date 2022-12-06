@@ -1,4 +1,4 @@
-import CategoryItem from "./../CategoryItem/CategoryItem";
+import CategoryItem from "../category-item/CategoryItem";
 import "./categories.styles.scss";
 
 function Categories({categories}) {
