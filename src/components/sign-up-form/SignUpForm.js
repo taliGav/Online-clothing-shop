@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState , useContext } from "react";
+import { userContext } from "./../../contexts/user-context";
 import {
   createAuthUserWithEmailAndPassword,
   createUserProfileDocument,
@@ -19,6 +20,8 @@ const SignUpForm = () => {
   const [formValues, setFormValues] = useState(defaultFormValues);
   const { displayName, email, password, confirmPassword } = formValues;
 
+  const { setCurrentUser } = useContext(userContext);
+
   const resetForm = () => {
     setFormValues(defaultFormValues);
   };
@@ -31,7 +34,9 @@ const SignUpForm = () => {
     }
     try {
       const res = await createAuthUserWithEmailAndPassword(email, password);
-      console.log("res: ", res);
+      // console.log("res: ", res);
+      setCurrentUser(res.user)
+
       await createUserProfileDocument(res.user, { displayName });
       resetForm();
     } catch (error) {
@@ -53,7 +58,7 @@ const SignUpForm = () => {
     const { name, value } = event.target;
 
     setFormValues({ ...formValues, [name]: value });
-    console.log("formValues on handlechange: ", formValues);
+    // console.log("formValues on handlechange: ", formValues);
   };
 
   return (
