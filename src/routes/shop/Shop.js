@@ -11,11 +11,8 @@ const Shop = () => {
   return (
     <div className="shop-page">
       <div className="products-container">
-        <h1>Shop</h1>
-        <h2>Hats</h2>
-
-        {products.map(({ id, ...otherCollectionProps }) => (
-          <ProductCard key={id} product={otherCollectionProps} />
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
     </div>
