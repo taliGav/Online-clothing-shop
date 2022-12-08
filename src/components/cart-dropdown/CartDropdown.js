@@ -1,14 +1,15 @@
 import "./cart-dropdown.styles.scss";
 import { useContext } from "react";
 import { cartContext } from "./../../contexts/cart-context";
+import { Link } from "react-router-dom";
 
 import CartItem from "./../cart-item/CartItem";
 import Button from "./../button/Button";
 
 const CartDropdown = () => {
-  const { cartItems } = useContext(cartContext);
+  const { cartItems , toggleCartDropdown} = useContext(cartContext);
 
-  console.log("cartItems on cartdropdown",cartItems);
+  console.log("cartItems on cartdropdown", cartItems);
 
   return (
     <div className="cart-dropdown-container">
@@ -17,7 +18,9 @@ const CartDropdown = () => {
           <CartItem key={item.id} cartItem={item} />
         ))}
       </div>
-      <Button>GO TO CHECKOUT</Button>
+      <Link to="/checkout">
+        <Button onClick={toggleCartDropdown}>GO TO CHECKOUT</Button>
+      </Link>
     </div>
   );
 };
