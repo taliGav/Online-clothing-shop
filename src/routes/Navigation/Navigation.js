@@ -13,12 +13,7 @@ import "./navigation.styles.scss";
 
 const Navigation = () => {
   const { currentUser } = useContext(userContext);
-  const { isCartOpen , setIsCartOpen} = useContext(cartContext);
-  
-  const handleCartDropdown = () => {
-    setIsCartOpen(!isCartOpen);
-  };
-
+  const { isCartOpen, toggleCartDropdown } = useContext(cartContext);
 
   return (
     <Fragment>
@@ -34,15 +29,15 @@ const Navigation = () => {
             CONTACT
           </Link>
           {currentUser ? (
-            <span className="nav-link" onClick={signOutAuthUser}>
-              SIGN OUT
-            </span>
+            <Link className="nav-link" to="/" onClick={signOutAuthUser}>
+                SIGN OUT
+            </Link>
           ) : (
             <Link className="nav-link" to="/auth">
               SIGN IN
             </Link>
           )}
-          <CartIcon onClick={handleCartDropdown} />
+          <CartIcon onClick={toggleCartDropdown} />
         </div>
         {isCartOpen && <CartDropdown />}
       </div>
