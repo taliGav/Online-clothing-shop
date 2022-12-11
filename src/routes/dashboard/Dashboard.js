@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { userContext } from "./../../contexts/user-context";
+import { UserContext } from "./../../contexts/user-context";
 
 
 const Dashboard = () => {
-  const { currentUser } = useContext(userContext);
+  const { currentUser } = useContext(UserContext);
 
 //   useEffect(() => {
 //     const loggedInUser = localStorage.getItem("authenticated");
