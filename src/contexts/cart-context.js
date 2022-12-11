@@ -67,7 +67,7 @@ const calcTotalPrice = (cartItems) =>
     0
   );
 
-export const cartContext = createContext({
+export const CartContext = createContext({
   isCartOpen: false,
   setIsCartOpen: () => null,
   cartItems: [],
@@ -129,5 +129,5 @@ export const CartStatusProvider = ({ children }) => {
     // updateCartItemQty,
   };
 
-  return <cartContext.Provider value={value}>{children}</cartContext.Provider>;
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
