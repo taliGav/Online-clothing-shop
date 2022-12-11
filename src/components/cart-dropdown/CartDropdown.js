@@ -1,13 +1,13 @@
 import "./cart-dropdown.styles.scss";
 import { useContext } from "react";
-import { cartContext } from "./../../contexts/cart-context";
+import { CartContext } from "./../../contexts/cart-context";
 import { Link } from "react-router-dom";
 
 import CartItem from "./../cart-item/CartItem";
 import Button from "./../button/Button";
 
 const CartDropdown = () => {
-  const { cartItems , toggleCartDropdown} = useContext(cartContext);
+  const { cartItems , toggleCartDropdown} = useContext(CartContext);
 
   console.log("cartItems on cartdropdown", cartItems);
 
