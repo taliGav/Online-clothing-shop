@@ -9,7 +9,7 @@ import {
   signInWithGooglePopup,
   signInAuthUserWithEmailAndPassword,
 } from "./../../utils/firebase/firebase-utils";
-// import { userContext } from "./../../contexts/user-context";
+// import { UserContext } from "./../../contexts/user-context";
 
 import "./sign-in-form.styles.scss";
 
@@ -20,7 +20,7 @@ const defaultFormValues = {
 
 const SignInForm = () => {
   const navigate = useNavigate();
-  // const { currentUser } = useContext(userContext);
+  // const { currentUser } = useContext(UserContext);
   const [formValues, setFormValues] = useState(defaultFormValues);
 
   const { email, password } = formValues;
