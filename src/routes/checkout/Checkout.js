@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import { cartContext } from "./../../contexts/cart-context";
+import { CartContext } from "./../../contexts/cart-context";
 import "./checkout.styles.scss";
 import CheckoutItem from "./../../components/checkout-item/CheckoutItem";
 // import { createAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase-utils";
 
 const Checkout = () => {
-  const { cartItems, totalPrice } = useContext(cartContext);
+  const { cartItems, totalPrice } = useContext(CartContext);
 
   //   const {
   //     cart,
