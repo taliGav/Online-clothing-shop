@@ -1,4 +1,4 @@
-import Categories from "../components/categories/Categories";
+import Directory from "../components/directory/Directory";
 
 function Home() {
   const categories = [
@@ -31,7 +31,7 @@ function Home() {
 
   return (
     <div className="Home">
-      <Categories categories={categories} />
+      <Directory categories={categories} />
     </div>
   );
 }
