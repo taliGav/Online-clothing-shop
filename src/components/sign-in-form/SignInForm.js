@@ -3,7 +3,7 @@ import { useState,
   } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthFormInput from "./../form-input/FormInput";
-import Button from "./../button/Button";
+import Button, {BUTTON_TYPE_CLASSES} from "./../button/Button";
 
 import {
   signInWithGooglePopup,
@@ -85,7 +85,7 @@ const SignInForm = () => {
         />
         <ButtonsContainer>
           <Button type="submit">Sign in</Button>
-          <Button type="button" buttonType="google" onClick={signInWithGoogle}>
+          <Button type="button" buttonType={BUTTON_TYPE_CLASSES.google} onClick={signInWithGoogle}>
             Google Sign in
           </Button>
         </ButtonsContainer>
