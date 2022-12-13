@@ -9,7 +9,7 @@ import { signOutAuthUser } from "./../../utils/firebase/firebase-utils";
 import CartIcon from "./../../components/cart-icon/CartIcon";
 import CartDropdown from "./../../components/cart-dropdown/CartDropdown";
 
-import "./navigation.styles.scss";
+import { NavigationContainer, LogoContainer , NavLinksContainer , NavLink } from "./navigation.styles";
 
 const Navigation = () => {
   const { currentUser } = useContext(UserContext);
@@ -17,30 +17,30 @@ const Navigation = () => {
 
   return (
     <Fragment>
-      <div className="navigation-bar">
-        <Link className="logo-container" to="/">
-          <CrwnLogo className="logo" />
-        </Link>
-        <div className="nav-links-container">
-          <Link className="nav-link" to="/shop">
-            SHOP
-          </Link>
-          <Link className="nav-link" to="/contact">
-            CONTACT
-          </Link>
-          {currentUser ? (
-            <Link className="nav-link" to="/" onClick={signOutAuthUser}>
+      <NavigationContainer>
+          <LogoContainer to="/">
+            <CrwnLogo className="logo" />
+          </LogoContainer>
+          <NavLinksContainer>
+            <NavLink to="/shop">
+              SHOP
+            </NavLink>
+            <NavLink to="/contact">
+              CONTACT
+            </NavLink>
+            {currentUser ? (
+              <NavLink as='span' to="/" onClick={signOutAuthUser}>
                 SIGN OUT
-            </Link>
-          ) : (
-            <Link className="nav-link" to="/auth">
-              SIGN IN
-            </Link>
-          )}
-          <CartIcon onClick={toggleCartDropdown} />
-        </div>
-        {isCartOpen && <CartDropdown />}
-      </div>
+              </NavLink>
+            ) : (
+              <NavLink to="/auth">
+                SIGN IN
+              </NavLink>
+            )}
+            <CartIcon onClick={toggleCartDropdown} />
+          </NavLinksContainer>
+          {isCartOpen && <CartDropdown />}
+      </NavigationContainer>
       <Outlet />
     </Fragment>
   );
