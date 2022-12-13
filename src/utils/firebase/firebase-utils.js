@@ -88,7 +88,7 @@ export const getCategoriesAndDocuments = async () => {
     return acc;
   }, {});
 
-  console.log("categoryMap: ", categoryMap);
+  // console.log("categoryMap: ", categoryMap);
 
   return categoryMap;
 };
