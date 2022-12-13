@@ -24,7 +24,9 @@ export const Body = styled.div`
     font-weight: bold;
     margin: 0 6px 0;
     font-size: 22px;
-    color: #4a4a4a;
+    color: #4a4a4a;    
+    text-transform: uppercase;
+
   }
 
   p {
