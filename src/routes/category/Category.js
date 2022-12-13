@@ -5,15 +5,14 @@ import { CategoriesContext } from "./../../contexts/categories-context";
 
 import ProductCard from "./../../components/product-card/ProductCard";
 
-import "./category.styles.scss";
+import { CategoryContainer, CategoryTitle } from "./category.styles.js";
+
+
 
 const Category = () => {
   const { category } = useParams();
   const { categoriesMap } = useContext(CategoriesContext);
   const [products, setProducts] = useState(categoriesMap[category]);
-
-  console.log(category);
-  console.log(categoriesMap);
 
   useEffect(() => {
     setProducts(categoriesMap[category]);
@@ -21,14 +20,14 @@ const Category = () => {
 
   return (
     <Fragment>
-      <h2 className="category-title">{category.toUpperCase()}</h2>
+      <CategoryTitle>{category.toUpperCase()}</CategoryTitle>
 
-      <div className="category-container">
+      <CategoryContainer>
         {products &&
           products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
-      </div>
+      </CategoryContainer>
     </Fragment>
   );
 };
