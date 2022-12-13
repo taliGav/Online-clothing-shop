@@ -11,7 +11,9 @@ import {
 } from "./../../utils/firebase/firebase-utils";
 // import { UserContext } from "./../../contexts/user-context";
 
-import "./sign-in-form.styles.scss";
+import {SignInContainer , SignInTitle, ButtonsContainer} from "./sign-in-form.styles";
+
+
 
 const defaultFormValues = {
   email: "",
@@ -24,8 +26,6 @@ const SignInForm = () => {
   const [formValues, setFormValues] = useState(defaultFormValues);
 
   const { email, password } = formValues;
-
-  // console.log("navigate", navigate);
 
   const resetForm = () => {
     setFormValues(defaultFormValues);
@@ -59,9 +59,11 @@ const SignInForm = () => {
     setFormValues({ ...formValues, [name]: value });
   };
 
+
+
   return (
-    <div className="sign-in-container">
-      <h2>Already have an account? </h2>
+    <SignInContainer>
+      <SignInTitle>Already have an account? </SignInTitle>
       <span>Sign in with your email and password</span>
 
       <form onSubmit={handleSubmit}>
@@ -81,14 +83,14 @@ const SignInForm = () => {
           onChange={handleChange}
           required
         />
-        <div className="buttons-container">
+        <ButtonsContainer>
           <Button type="submit">Sign in</Button>
           <Button type="button" buttonType="google" onClick={signInWithGoogle}>
             Google Sign in
           </Button>
-        </div>
+        </ButtonsContainer>
       </form>
-    </div>
+    </SignInContainer>
   );
 };
 
