@@ -9,6 +9,7 @@ import {
   createUserProfileDocument,
 } from "./../utils/firebase/firebase-utils";
 
+import { createAction } from './../utils/reducer/reducer-utils'
 
 
 
@@ -27,7 +28,7 @@ const userReducer = (state, action) => {
     case "SET_CURRENT_USER":
       return {
         ...state,
-        currentUser: payload,
+        ...payload,
       };
 
     default:
@@ -45,7 +46,9 @@ export const UserProvider = ({ children }) => {
   const { currentUser } = state;
 
   const setCurrentUser = (user) => {
-    dispatch({ type: USER_ACTION_TYPES.SET_CURRENT_USER, payload: user });
+    dispatch(
+      createAction(USER_ACTION_TYPES.SET_CURRENT_USER, {currentUser: user})
+      );
   };
 
   const value = { currentUser, setCurrentUser };
