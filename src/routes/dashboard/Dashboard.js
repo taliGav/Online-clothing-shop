@@ -1,10 +1,10 @@
-import { useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { UserContext } from "./../../contexts/user-context";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../store/user/user.selector";
 
 
 const Dashboard = () => {
-  const { currentUser } = useContext(UserContext);
+  const currentUser = useSelector(selectCurrentUser);
 
 //   useEffect(() => {
 //     const loggedInUser = localStorage.getItem("authenticated");
