@@ -18,7 +18,7 @@ import {
 
 const Navigation = () => {
   const { currentUser } = useContext(UserContext);
-  const { isCartOpen, toggleCartDropdown } = useContext(CartContext);
+  const { isCartOpen, toggleIsCartOpen } = useContext(CartContext);
 
   return (
     <Fragment>
@@ -36,7 +36,7 @@ const Navigation = () => {
           ) : (
             <NavLink to="/auth">SIGN IN</NavLink>
           )}
-          <CartIcon onClick={toggleCartDropdown} />
+          <CartIcon onClick={toggleIsCartOpen} />
         </NavLinksContainer>
         {isCartOpen && <CartDropdown />}
       </NavigationContainer>
