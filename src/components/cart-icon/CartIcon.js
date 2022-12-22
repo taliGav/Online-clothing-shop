@@ -5,12 +5,12 @@ import {CartIconContainer, ShoppingIcon, ItemCount
 } from "./cart-icon.styles.js";
 
 const CartIcon = ({onClick}) => {
-  const {cartItemsCount} = useContext(CartContext);
+  const {cartCount} = useContext(CartContext);
 
   return (
     <CartIconContainer onClick={onClick}>
       <ShoppingIcon className="shopping-icon" />
-      <ItemCount>{cartItemsCount}</ItemCount>
+      <ItemCount>{cartCount}</ItemCount>
     </CartIconContainer>
   );
 };
