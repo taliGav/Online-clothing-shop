@@ -15,7 +15,7 @@ export const CartContext = createContext({
 });
 
 
-const INITIAL_STATE = {
+const CART_INITIAL_STATE = {
   cartItems: [],
   cartCount: 0,
   totalPrice: 0,
@@ -92,7 +92,7 @@ const clearCartItem = (cartItems, itemToRemove) => {
 
 export const CartProvider = ({ children }) => {
   
-  const [state, dispatch] = useReducer(cartReducer, INITIAL_STATE);
+  const [state, dispatch] = useReducer(cartReducer, CART_INITIAL_STATE);
   const { isCartOpen, cartItems, cartCount, totalPrice } = state;
 
 
