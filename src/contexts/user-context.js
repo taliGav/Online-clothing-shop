@@ -17,7 +17,7 @@ export const UserContext = createContext({
   setCurrentUser: () => null,
 });
 
-export const USER_ACTIONS_TYPES = {
+export const USER_ACTION_TYPES = {
   SET_CURRENT_USER: "SET_CURRENT_USER",
 };
 
@@ -45,7 +45,7 @@ export const UserProvider = ({ children }) => {
   const { currentUser } = state;
 
   const setCurrentUser = (user) => {
-    dispatch({ type: USER_ACTIONS_TYPES.SET_CURRENT_USER, payload: user });
+    dispatch({ type: USER_ACTION_TYPES.SET_CURRENT_USER, payload: user });
   };
 
   const value = { currentUser, setCurrentUser };
