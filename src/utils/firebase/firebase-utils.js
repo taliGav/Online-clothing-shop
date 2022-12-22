@@ -40,6 +40,7 @@ googleProvider.setCustomParameters({
 });
 
 export const auth = getAuth(firebaseApp);
+
 export const signInWithGooglePopup = () =>
   signInWithPopup(auth, googleProvider);
 
@@ -73,7 +74,7 @@ export const addCollectionAndDocuments = async (
 };
 
 export const getCategoriesAndDocuments = async () => {
-// export const getCategoriesAndDocuments = async (collectionKey) => {
+  // export const getCategoriesAndDocuments = async (collectionKey) => {
   // const collectionRef = collection(db, collectionKey);
   const collectionRef = collection(db, "categories");
   // console.log("collectionRef: ", collectionRef);
@@ -82,15 +83,8 @@ export const getCategoriesAndDocuments = async () => {
   const querySnapshot = await getDocs(q);
   // console.log("querySnapshot: ", querySnapshot);
   
-  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-    const { title, items } = docSnapshot.data();
-    acc[title.toLowerCase()] = items;
-    return acc;
-  }, {});
-
-  // console.log("categoryMap: ", categoryMap);
-
-  return categoryMap;
+  const categories = querySnapshot.docs.map((docSnapshot)=> docSnapshot.data())
+  return categories
 };
 
 export const createUserProfileDocument = async (authUser, additionalData) => {
