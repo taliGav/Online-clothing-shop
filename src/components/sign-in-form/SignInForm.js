@@ -1,6 +1,4 @@
-import { useState,
-  //  useContext 
-  } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthFormInput from "./../form-input/FormInput";
 import Button, {BUTTON_TYPE_CLASSES} from "./../button/Button";
@@ -9,7 +7,6 @@ import {
   signInWithGooglePopup,
   signInAuthUserWithEmailAndPassword,
 } from "./../../utils/firebase/firebase-utils";
-// import { UserContext } from "./../../contexts/user-context";
 
 import {SignInContainer , SignInTitle, ButtonsContainer} from "./sign-in-form.styles";
 
@@ -22,7 +19,6 @@ const defaultFormValues = {
 
 const SignInForm = () => {
   const navigate = useNavigate();
-  // const { currentUser } = useContext(UserContext);
   const [formValues, setFormValues] = useState(defaultFormValues);
 
   const { email, password } = formValues;
