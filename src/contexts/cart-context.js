@@ -1,11 +1,61 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useReducer } from "react";
+
+export const CartContext = createContext({
+  isCartOpen: false,
+  setIsCartOpen: () => null,
+
+  cartItems: [],
+  addItemToCart: () => null,
+  removeItemFromCart: () => null,
+  clearItemFromCart: () => null,
+
+  cartCount: 0,
+  totalPrice: 0,
+});
+
+
+const INITIAL_STATE = {
+  cartItems: [],
+  cartCount: 0,
+  totalPrice: 0,
+  isCartOpen: false,
+};
+
+
+export const CART_ACTION_TYPES = {
+  SET_CART_ITEMS: "SET_CART_ITEMS",
+  SET_IS_CART_OPEN: "SET_IS_CART_OPEN",
+};
+
+
+const cartReducer = (state, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case "SET_CART_ITEMS":
+      return {
+        ...state,
+        ...payload,
+      };
+
+    case "SET_IS_CART_OPEN":
+      return {
+        ...state,
+        ...payload,
+      };  
+  
+    default:
+      throw new Error(`Unexpected action type of: ${type} in cartReducer`);
+  }
+};
+
+
+
 
 const addCartItem = (cartItems, itemToAdd) => {
   const existingCartItem = cartItems.find(
     (cartItem) => cartItem.id === itemToAdd.id
   );
   if (existingCartItem) {
-    // return updateCartItemQty(cartItems, itemToAdd, 1);
     return cartItems.map((cartItem) =>
       cartItem.id === itemToAdd.id
         ? { ...cartItem, quantity: cartItem.quantity + 1 }
@@ -21,7 +71,6 @@ const removeCartItem = (cartItems, itemToRemove) => {
     (cartItem) => cartItem.id === itemToRemove.id
   );
   if (existingCartItem.quantity === 1) {
-    // return updateCartItemQty(cartItems, itemToRemove, -1);
     return cartItems.filter((cartItem) => cartItem.id !== itemToRemove.id);
   } else {
     return cartItems.map((cartItem) =>
@@ -31,102 +80,79 @@ const removeCartItem = (cartItems, itemToRemove) => {
     );
   }
 };
+
 const clearCartItem = (cartItems, itemToRemove) => {
-  // const existingCartItem = cartItems.find(
-  //   (cartItem) => cartItem.id === itemToRemove.id
-  // );
-  // if (existingCartItem.quantity === 1) {
-  //   // return updateCartItemQty(cartItems, itemToRemove, -1);
-    return cartItems.filter((cartItem) => cartItem.id !== itemToRemove.id);
-  // } else {
-  //   return cartItems.map((cartItem) =>
-  //     cartItem.id === itemToRemove.id
-  //       ? { ...cartItem, quantity: cartItem.quantity - 1 }
-  //       : cartItem
-  //   );
-  // }
+  return cartItems.filter((cartItem) => cartItem.id !== itemToRemove.id);
 };
 
-// const updateCartItemQty = (cartItems, currItem , delta) =>
-//   cartItems.map((cartItem) =>
-//   cartItem.id === currItem.id
-//     ? { ...cartItem, quantity: cartItem.quantity + delta }
-//     : cartItem
-// )
 
-const sumCartItems = (cartItems) =>
-  cartItems.reduce(
-    (accumulatedQuantity, cartItem) => accumulatedQuantity + cartItem.quantity,
-    0
-  );
 
-const calcTotalPrice = (cartItems) =>
-  cartItems.reduce(
-    (accumulatedPrice, cartItem) =>
-      accumulatedPrice + cartItem.quantity * cartItem.price,
-    0
-  );
 
-export const CartContext = createContext({
-  isCartOpen: false,
-  setIsCartOpen: () => null,
-  cartItems: [],
-  // setCartItems: () => null,
-  cartItemsCount: 0,
-  // setCartItemsCount: () => null,
-  totalPrice: 0,
-  addItemToCart: () => null,
-  removeItemFromCart: () => null,
-  clearItemFromCart: () => null,
-  // setTotalPrice: () => null,
-});
 
-export const CartStatusProvider = ({ children }) => {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
-  const [cartItemsCount, setCartItemsCount] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
+export const CartProvider = ({ children }) => {
+  
+  const [state, dispatch] = useReducer(cartReducer, INITIAL_STATE);
+  const { isCartOpen, cartItems, cartCount, totalPrice } = state;
 
-  useEffect(() => {
-    setCartItemsCount(sumCartItems(cartItems));
-    setTotalPrice(calcTotalPrice(cartItems));
-  }, [cartItems]);
 
-  const toggleCartDropdown = () => {
-    setIsCartOpen(!isCartOpen);
+  const setIsCartOpenReducer = (bool) =>
+    dispatch({
+      type: CART_ACTION_TYPES.SET_IS_CART_OPEN,
+      payload: {isCartOpen: bool}
+  });
+
+
+  const setCartItemsReducer = (newCartItems) => {
+  
+     const newCartCount =  newCartItems.reduce(
+        (accumulatedQuantity, cartItem) => accumulatedQuantity + cartItem.quantity,
+        0
+      );
+    
+    const newCartTotal = newCartItems.reduce(
+        (accumulatedPrice, cartItem) =>
+          accumulatedPrice + cartItem.quantity * cartItem.price,
+        0
+      );
+      
+    dispatch({
+        type: CART_ACTION_TYPES.SET_CART_ITEMS,
+        payload: {
+          cartItems: newCartItems, cartCount:newCartCount,  totalPrice: newCartTotal
+        }
+      });
   };
 
+
+  const toggleIsCartOpen = () => setIsCartOpenReducer(!isCartOpen);
+
   const addItemToCart = (itemToAdd) => {
-    setCartItems(addCartItem(cartItems, itemToAdd));
+    const newCartItems = addCartItem(cartItems, itemToAdd);
+    setCartItemsReducer(newCartItems)
   };
 
   const removeItemFromCart = (itemToRemove) => {
-    setCartItems(removeCartItem(cartItems, itemToRemove));
-  };
-  const clearItemFromCart = (itemToClear) => {
-    setCartItems(clearCartItem(cartItems, itemToClear));
+    const newCartItems = removeCartItem(cartItems, itemToRemove);
+    setCartItemsReducer(newCartItems)
   };
 
-  // const updateCartItemQty = (currItem, delta) =>
-  //   setCartItems(
-  //     cartItems.map((cartItem) =>
-  //       cartItem.id === currItem.id
-  //         ? { ...cartItem, quantity: cartItem.quantity + delta }
-  //         : cartItem
-  //     )
-  //   );
+  const clearItemFromCart = (itemToClear) => {
+    const newCartItems = clearCartItem(cartItems, itemToClear);
+    setCartItemsReducer(newCartItems)
+  };
+
+
+  
 
   const value = {
     isCartOpen,
-    setIsCartOpen,
-    toggleCartDropdown,
+    toggleIsCartOpen,
     addItemToCart,
     removeItemFromCart,
     clearItemFromCart,
     cartItems,
-    cartItemsCount,
+    cartCount,
     totalPrice,
-    // updateCartItemQty,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
