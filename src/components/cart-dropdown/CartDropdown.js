@@ -12,9 +12,7 @@ import {
 } from "./cart-dropdown.styles";
 
 const CartDropdown = () => {
-  const { cartItems, toggleCartDropdown } = useContext(CartContext);
-
-  // console.log("cartItems on cartdropdown", cartItems);
+  const { cartItems, toggleIsCartOpen } = useContext(CartContext);
 
   return (
     <CartDropdownContainer>
@@ -25,11 +23,8 @@ const CartDropdown = () => {
           <EmptyMessage>Your cart is empty</EmptyMessage>
         )}
       </CartItems>
-      {/* <Link to="/checkout" onClick={toggleCartDropdown}>
-       GO TO CHECKOUT
-      </Link> */}
       <Link to="/checkout">
-        <Button onClick={toggleCartDropdown}>GO TO CHECKOUT</Button>
+        <Button onClick={toggleIsCartOpen}>GO TO CHECKOUT</Button>
       </Link>
     </CartDropdownContainer>
   );
